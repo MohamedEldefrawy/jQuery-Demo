@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Restaurant</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/card.css">
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/site.js"></script>
 </head>
 <body>
 <header class="navbar">
@@ -14,22 +17,17 @@
         <header>
             <h1 class="menu-text">Menu</h1>
         </header>
-        <div class="products flex-col">
-            <div class="product">
-                <p>Product one</p>
-            </div>
-            <div class="product">
-                <p>Product one</p>
-            </div>
-            <div class="product">
-                <p>Product one</p>
-            </div>
+        <div id="Products" class="products">
+
         </div>
     </section>
     <section class="grid-item">
         <header>
             <h1 class="cart-text">Shopping cart</h1>
         </header>
+
+        <div id="Cart" class="products flex-col">
+        </div>
     </section>
 </div>
 <footer class="footer">
