@@ -22,7 +22,7 @@ $(document).ready(function () {
                                 </div>
                     
                                 <div class="card-price-info">
-                                    ${datum.price.toString()}$
+                                    ${datum.price}$
                                 </div>
                     </div>`;
                 console.log(datum.image);
@@ -33,6 +33,13 @@ $(document).ready(function () {
         error: function (error) {
             console.log(error);
 
+        },
+        complete: function () {
+            $(".card").draggable({
+                helper: "clone",
+            });
         }
     });
+
+
 });
