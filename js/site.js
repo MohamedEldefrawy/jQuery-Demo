@@ -1,11 +1,12 @@
 $(document).ready(function () {
 
     let productsArea = $('#Products');
+    let cartArea = $('#Cart');
+
     $.ajax({
         type: "GET",
         url: "http://localhost:3000/items",
         success: function (response) {
-            console.log(response.data)
             for (const datum of response.data) {
                 let mealElement = `
                             <section class="card">
@@ -22,7 +23,7 @@ $(document).ready(function () {
                                 </div>
                     
                                 <div class="card-price-info">
-                                    ${datum.price}$
+                                    ${datum.price}
                                 </div>
                     </div>`;
                 console.log(datum.image);
@@ -37,7 +38,20 @@ $(document).ready(function () {
         complete: function () {
             $(".card").draggable({
                 helper: "clone",
+                revert: 'invalid',
+                cursorAt: {left: 0},
+                axis: "x",
+                containment: "#GridContainer",
+                cursor: "move",
             });
+
+            $('#Cart').droppable({
+                accept: ".card",
+                drop: function (event, target) {
+                    let droppedItem = $(target.draggable).clone();
+                    $(this).append(droppedItem);
+                }
+            })
         }
     });
 

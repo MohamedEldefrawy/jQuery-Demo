@@ -56,3 +56,7 @@ body {
 .product {
     width: 100%;
 }
+
+#Cart {
+    min-height: 300px;
+}
