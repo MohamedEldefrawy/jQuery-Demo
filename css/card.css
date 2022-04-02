@@ -4,7 +4,7 @@
     box-shadow: 0 5px 30px 30px #000000;
     padding: 1rem;
     width: 300px;
-    margin: auto;
+    margin: auto auto 7rem;
 }
 
 .card-image-container {
