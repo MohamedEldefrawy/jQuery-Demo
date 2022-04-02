@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     let productsArea = $('#Products');
-    let cartArea = $('#Cart');
+    let cart = [];
 
     $.ajax({
         type: "GET",
@@ -9,7 +9,7 @@ $(document).ready(function () {
         success: function (response) {
             for (const datum of response.data) {
                 let mealElement = `
-                            <section class="card">
+                            <section id="${datum.id}" class="card">
                                 <div class="card-image-container">
                                     <img class="card-img" src="${datum.image}" alt="card-image">
                                 </div>
@@ -23,8 +23,14 @@ $(document).ready(function () {
                                 </div>
                     
                                 <div class="card-price-info">
-                                    ${datum.price}
+                                    $${datum.price}
                                 </div>
+                                <div class="card-count">
+                                    <span style="font-size: 1rem">X</span>0
+                                </div>
+                                
+                                <input type="button" value="Add" class="btn btn-add">
+                                <input type="button" value="Remove" class="btn btn-remove d-none">
                     </div>`;
                 console.log(datum.image);
                 productsArea.append(mealElement);
@@ -40,7 +46,6 @@ $(document).ready(function () {
                 helper: "clone",
                 revert: 'invalid',
                 cursorAt: {left: 0},
-                axis: "x",
                 containment: "#GridContainer",
                 cursor: "move",
             });
@@ -49,11 +54,24 @@ $(document).ready(function () {
                 accept: ".card",
                 drop: function (event, target) {
                     let droppedItem = $(target.draggable).clone();
-                    $(this).append(droppedItem);
+
+                    if (cart.findIndex(value => {
+                            return value === droppedItem[0].id;
+                        }
+                    ) > -1) {
+                        console.log("mawgood");
+                    } else {
+                        console.log(droppedItem);
+                        cart.push(droppedItem[0].id);
+                        console.log(cart);
+                        $(this).append(droppedItem);
+                    }
                 }
-            })
+            });
+
+            $(".card").on("click", ".btn-add", function () {
+                console.log("Fired");
+            });
         }
     });
-
-
 });

@@ -19,13 +19,42 @@
     border-radius: 10px;
 }
 
-.card-price-info {
-    display: flex;
-    flex-wrap: nowrap;
+.card-price-info,
+.card-count {
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 1rem;
 }
 
 .card-info {
     color: #6a80a0;
     margin-bottom: 15px;
     font-size: 25px;
+}
+
+.btn {
+    height: 3rem;
+    width: 6rem;
+}
+
+.btn-add {
+    color: white;
+    font-weight: bold;
+    background-color: #007fff;
+    border: 0;
+}
+
+.btn-add:active {
+    background-color: #033764;
+}
+
+.btn-remove {
+    color: white;
+    font-weight: bold;
+    background-color: red;
+    border: 0;
+}
+
+.btn-remove:active {
+    background-color: #500202;
 }
