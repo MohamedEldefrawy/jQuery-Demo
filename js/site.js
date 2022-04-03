@@ -66,6 +66,8 @@ $(document).ready(function () {
                     droppedItem.find('.btn-add').removeClass('d-block');
                     droppedItem.find('.card-price-info').removeClass('d-none');
                     droppedItem.find('.card-price-info').addClass('d-block');
+                    droppedItem.find('.card-count').addClass('d-block');
+                    droppedItem.find('.card-count').removeClass('d-none');
 
                     if (cart.findIndex(value => {
                             return value.id === droppedItem[0].id;
@@ -86,7 +88,7 @@ $(document).ready(function () {
                 }
             });
 
-            $(".card").on("click", ".btn-add", function () {
+            $('.card').on("click", ".btn-add", function () {
                 console.log("Fired");
             });
         }
