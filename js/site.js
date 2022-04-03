@@ -6,7 +6,7 @@ $(document).ready(function () {
     let totalBill = 0;
 
 
-    function PrepareCartItem(droppedItem) {
+    function prepareCartItem(droppedItem) {
         droppedItem.find('.btn-remove').addClass('d-inline-block');
         droppedItem.find('.btn-remove').removeClass('d-none');
         droppedItem.find('.btn-add').addClass('d-none');
@@ -17,6 +17,38 @@ $(document).ready(function () {
         droppedItem.find('.card-count').removeClass('d-none');
     }
 
+    function removeItem(parent) {
+        parent.childNodes[13].addEventListener('click', (target) => {
+            if (cart.findIndex(value => {
+                return value.id === parent.id;
+            }) > -1) {
+                let index = cart.findIndex(value => {
+                    return value.id === parent.id;
+                });
+                if (cart[index].count > 1) {
+                    cart[index].count--;
+                    $("#Cart" + ' #' + cart[index].id + " .card-count")[0].lastChild.textContent = cart[index].count;
+                    console.log("removing");
+
+                    let price = $("#" + cart[index].id + " .card-price-info")[0].innerText.split("$")[1];
+                    totalPrice -= parseFloat(price);
+                    totalBill = totalPrice + (totalPrice * 0.14);
+                    $("#Price")[0].lastChild.textContent = totalPrice;
+                    $("#Total")[0].lastChild.textContent = totalBill;
+
+                } else {
+                    let price = $("#" + cart[index].id + " .card-price-info")[0].innerText.split("$")[1];
+                    totalPrice -= parseFloat(price);
+                    totalBill = totalPrice + (totalPrice * 0.14);
+                    $("#Price")[0].lastChild.textContent = totalPrice;
+                    $("#Total")[0].lastChild.textContent = totalBill;
+                    cart.pop({id: parent.id, count: 1});
+                    parent.remove();
+                }
+            }
+        });
+    }
+
     function AddingToCart(cart) {
         $('#Cart').droppable({
             accept: ".card", drop: function (event, target) {
@@ -24,28 +56,13 @@ $(document).ready(function () {
 
                 let price = $("#" + droppedItem[0].id + " .card-price-info")[0].innerText.split("$")[1];
                 totalPrice += parseFloat(price);
-                totalBill = totalPrice + (totalPrice * 0.14);
+                totalBill = totalPrice + (totalPrice * 0.14) + 20;
                 $("#Price")[0].lastChild.textContent = totalPrice;
                 $("#Total")[0].lastChild.textContent = totalBill;
 
-                droppedItem[0].childNodes[13].addEventListener('click', (target) => {
-                    if (cart.findIndex(value => {
-                        return value.id === droppedItem[0].id;
-                    }) > -1) {
-                        let index = cart.findIndex(value => {
-                            return value.id === droppedItem[0].id;
-                        });
-                        if (cart[index].count > 1) {
-                            cart[index].count--;
-                            $("#Cart" + ' #' + cart[index].id + " .card-count")[0].lastChild.textContent = cart[index].count;
-                        } else {
-                            cart.pop({id: droppedItem[0].id, count: 1});
-                            droppedItem[0].remove();
-                        }
-                    }
-                });
+                removeItem(droppedItem[0]);
 
-                PrepareCartItem(droppedItem);
+                prepareCartItem(droppedItem);
 
                 if (cart.findIndex(value => {
                     return value.id === droppedItem[0].id;
@@ -116,29 +133,12 @@ $(document).ready(function () {
 
                 let price = $("#" + clone.id + " .card-price-info")[0].innerText.split("$")[1];
                 totalPrice += parseFloat(price);
-                totalBill = totalPrice + (totalPrice * 0.14);
+                totalBill = totalPrice + (totalPrice * 0.14) + 20;
                 $("#Price")[0].lastChild.textContent = totalPrice;
                 console.log($("#Price")[0].lastChild.textContent);
 
                 $("#Total")[0].lastChild.textContent = totalBill;
-
-                clone.childNodes[13].addEventListener('click', (target) => {
-                    if (cart.findIndex(value => {
-                        return value.id === clone.id;
-                    }) > -1) {
-                        let index = cart.findIndex(value => {
-                            return value.id === clone.id;
-                        });
-                        if (cart[index].count > 1) {
-                            cart[index].count--;
-                            $("#Cart" + ' #' + cart[index].id + " .card-count")[0].lastChild.textContent = cart[index].count;
-
-                        } else {
-                            cart.pop({id: clone.id, count: 1});
-                            clone.remove();
-                        }
-                    }
-                });
+                removeItem(clone);
                 if (cart.findIndex(value => {
                     return value.id === clone.id;
                 }) > -1) {
@@ -157,7 +157,4 @@ $(document).ready(function () {
         }
     });
 
-    function calculateTotalCost(totalPrice) {
-        return totalPrice + totalPrice * 0.14;
-    }
 });
