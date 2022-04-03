@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/card.css">
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>
     <script src="js/site.js"></script>
 </head>
 <body>
@@ -17,20 +18,26 @@
 <div id="GridContainer" class="grid-container">
     <section id="Products" class="grid-item" style="border-right: 5px solid black">
         <header style="margin-bottom: 5rem">
-            <h1 class="menu-text">Menu</h1>
+            <h1 class="menu-text">
+                <i class="bi bi-menu-button-wide"></i>
+                Menu
+            </h1>
         </header>
     </section>
     <section id="Cart" class="grid-item">
         <header style="margin-bottom: 5rem">
-            <h1 class="cart-text">Shopping cart</h1>
+            <h1 class="cart-text">
+                <i class="bi bi-cart-check"></i>
+                Shopping cart
+            </h1>
             <div id="Price">
                 <strong>Price: </strong>
                 <span></span>
             </div>
-            <div>
+            <div id="VAT">
                 <strong>VAT: </strong> 14%
             </div>
-            <div>
+            <div id="Delivery">
                 <strong>Delivery: </strong> $20
             </div>
             <div id="Total">
