@@ -26,7 +26,7 @@ $(document).ready(function () {
                                     $${datum.price}
                                 </div>
                                 <div class="card-count">
-                                    <span style="font-size: 1rem">X</span>0
+                                    <span style="font-size: 1rem">X</span>1
                                 </div>
                                 
                                 <input type="button" value="Add" class="btn btn-add">
@@ -56,13 +56,20 @@ $(document).ready(function () {
                     let droppedItem = $(target.draggable).clone();
 
                     if (cart.findIndex(value => {
-                            return value === droppedItem[0].id;
+                            return value.id === droppedItem[0].id;
                         }
                     ) > -1) {
-                        console.log("mawgood");
+                        let index = cart.findIndex(value => {
+                                return value.id === droppedItem[0].id;
+                            }
+                        )
+                        cart[index].count++;
+                        // console.log($("#Cart" + ' #' + cart[index].id + " .card-count")[0].lastChild);
+                        $("#Cart" + ' #' + cart[index].id + " .card-count")[0].lastChild.textContent = cart[index].count;
+
                     } else {
-                        console.log(droppedItem);
-                        cart.push(droppedItem[0].id);
+                        // console.log(droppedItem);
+                        cart.push({id: droppedItem[0].id, count: 1});
                         console.log(cart);
                         $(this).append(droppedItem);
                     }
