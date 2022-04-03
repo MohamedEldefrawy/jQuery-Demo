@@ -9,10 +9,6 @@ body {
     text-align: center;
 }
 
-.grid-item {
-}
-
-
 .menu-text {
     background-color: #777620;
     margin: 0;
@@ -68,5 +64,9 @@ body {
 
 .d-inline-block {
     display: inline-block;
+}
+
+#Bill {
+    margin: 1rem 0 1rem 0;
 }
 

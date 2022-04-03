@@ -54,6 +54,8 @@ $(document).ready(function () {
 
     let productsArea = $('#Products');
     let cart = [];
+    let totalPrice = 0;
+    let totalBill = 0;
 
     $.ajax({
         type: "GET", url: "http://localhost:3000/items", success: function (response) {
@@ -82,7 +84,6 @@ $(document).ready(function () {
                                 <input type="button" value="Add" class="btn btn-add">
                                 <input type="button" value="Remove" class="btn btn-remove d-none">
                     </div>`;
-                console.log(datum.image);
                 productsArea.append(mealElement);
 
             }
@@ -105,6 +106,14 @@ $(document).ready(function () {
                 clone.childNodes[9].classList.add('d-block');
                 clone.childNodes[9].classList.remove('d-none');
 
+                let price = $("#" + clone.id + " .card-price-info")[0].innerText.split("$")[1];
+                totalPrice += parseFloat(price);
+                totalBill = totalPrice + (totalPrice * 0.14);
+                $("#Price")[0].lastChild.textContent = totalPrice;
+                console.log($("#Price")[0].lastChild.textContent);
+
+                $("#Total")[0].lastChild.textContent = totalBill;
+
                 clone.childNodes[13].addEventListener('click', (target) => {
                     if (cart.findIndex(value => {
                         return value.id === clone.id;
@@ -115,6 +124,7 @@ $(document).ready(function () {
                         if (cart[index].count > 1) {
                             cart[index].count--;
                             $("#Cart" + ' #' + cart[index].id + " .card-count")[0].lastChild.textContent = cart[index].count;
+
                         } else {
                             cart.pop({id: clone.id, count: 1});
                             clone.remove();
@@ -138,4 +148,8 @@ $(document).ready(function () {
 
         }
     });
+
+    function calculateTotalCost(totalPrice) {
+        return totalPrice + totalPrice * 0.14;
+    }
 });
