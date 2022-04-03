@@ -25,7 +25,7 @@ $(document).ready(function () {
                                 <div class="card-price-info">
                                     $${datum.price}
                                 </div>
-                                <div class="card-count">
+                                <div class="card-count d-none">
                                     <span style="font-size: 1rem">X</span>1
                                 </div>
                                 
@@ -55,6 +55,18 @@ $(document).ready(function () {
                 drop: function (event, target) {
                     let droppedItem = $(target.draggable).clone();
 
+                    console.log(droppedItem);
+                    droppedItem.find('.btn-remove').on('click', (event) => {
+                        console.log(event);
+                    });
+
+                    droppedItem.find('.btn-remove').addClass('d-inline-block');
+                    droppedItem.find('.btn-remove').removeClass('d-none');
+                    droppedItem.find('.btn-add').addClass('d-none');
+                    droppedItem.find('.btn-add').removeClass('d-block');
+                    droppedItem.find('.card-price-info').removeClass('d-none');
+                    droppedItem.find('.card-price-info').addClass('d-block');
+
                     if (cart.findIndex(value => {
                             return value.id === droppedItem[0].id;
                         }
@@ -64,11 +76,9 @@ $(document).ready(function () {
                             }
                         )
                         cart[index].count++;
-                        // console.log($("#Cart" + ' #' + cart[index].id + " .card-count")[0].lastChild);
                         $("#Cart" + ' #' + cart[index].id + " .card-count")[0].lastChild.textContent = cart[index].count;
 
                     } else {
-                        // console.log(droppedItem);
                         cart.push({id: droppedItem[0].id, count: 1});
                         console.log(cart);
                         $(this).append(droppedItem);
