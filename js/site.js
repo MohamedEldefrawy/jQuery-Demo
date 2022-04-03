@@ -11,31 +11,40 @@ function PrepareCartItem(droppedItem) {
 
 function AddingToCart(cart) {
     $('#Cart').droppable({
-        accept: ".card",
-        drop: function (event, target) {
-            let droppedItem = $(target.draggable).clone();
+        accept: ".card", drop: function (event, target) {
+            let droppedItem = $(target.draggable).clone(true);
 
-            console.log(droppedItem);
-            droppedItem.find('.btn-remove').on('click', (event) => {
-                console.log(event);
+            droppedItem[0].childNodes[13].addEventListener('click', (target) => {
+                if (cart.findIndex(value => {
+                    return value.id === droppedItem[0].id;
+                }) > -1) {
+                    let index = cart.findIndex(value => {
+                        return value.id === droppedItem[0].id;
+                    });
+                    if (cart[index].count > 1) {
+                        cart[index].count--;
+                        $("#Cart" + ' #' + cart[index].id + " .card-count")[0].lastChild.textContent = cart[index].count;
+                    } else {
+                        cart.pop({id: droppedItem[0].id, count: 1});
+                        droppedItem[0].remove();
+                    }
+                }
             });
+
             PrepareCartItem(droppedItem);
 
             if (cart.findIndex(value => {
-                    return value.id === droppedItem[0].id;
-                }
-            ) > -1) {
+                return value.id === droppedItem[0].id;
+            }) > -1) {
                 let index = cart.findIndex(value => {
-                        return value.id === droppedItem[0].id;
-                    }
-                )
+                    return value.id === droppedItem[0].id;
+                })
                 cart[index].count++;
                 $("#Cart" + ' #' + cart[index].id + " .card-count")[0].lastChild.textContent = cart[index].count;
 
             } else {
                 cart.push({id: droppedItem[0].id, count: 1});
-                console.log(cart);
-                $(this).append(droppedItem);
+                droppedItem.appendTo($(this));
             }
         }
     });
@@ -47,9 +56,7 @@ $(document).ready(function () {
     let cart = [];
 
     $.ajax({
-        type: "GET",
-        url: "http://localhost:3000/items",
-        success: function (response) {
+        type: "GET", url: "http://localhost:3000/items", success: function (response) {
             for (const datum of response.data) {
                 let mealElement = `
                             <section id="${datum.id}" class="card">
@@ -79,18 +86,12 @@ $(document).ready(function () {
                 productsArea.append(mealElement);
 
             }
-        },
-        error: function (error) {
+        }, error: function (error) {
             console.log(error);
 
-        },
-        complete: function () {
+        }, complete: function () {
             $(".card").draggable({
-                helper: "clone",
-                revert: 'invalid',
-                cursorAt: {left: 0},
-                containment: "#GridContainer",
-                cursor: "move",
+                helper: "clone", revert: 'invalid', cursorAt: {left: 0}, containment: "#GridContainer", cursor: "move",
             });
 
             AddingToCart(cart);
@@ -104,24 +105,37 @@ $(document).ready(function () {
                 clone.childNodes[9].classList.add('d-block');
                 clone.childNodes[9].classList.remove('d-none');
 
-                console.log(clone.id);
-                if (cart.findIndex(value => {
+                clone.childNodes[13].addEventListener('click', (target) => {
+                    if (cart.findIndex(value => {
                         return value.id === clone.id;
-                    }
-                ) > -1) {
-                    let index = cart.findIndex(value => {
+                    }) > -1) {
+                        let index = cart.findIndex(value => {
                             return value.id === clone.id;
+                        });
+                        if (cart[index].count > 1) {
+                            cart[index].count--;
+                            $("#Cart" + ' #' + cart[index].id + " .card-count")[0].lastChild.textContent = cart[index].count;
+                        } else {
+                            cart.pop({id: clone.id, count: 1});
+                            clone.remove();
                         }
-                    )
+                    }
+                });
+                if (cart.findIndex(value => {
+                    return value.id === clone.id;
+                }) > -1) {
+                    let index = cart.findIndex(value => {
+                        return value.id === clone.id;
+                    })
                     cart[index].count++;
                     $("#Cart" + ' #' + cart[index].id + " .card-count")[0].lastChild.textContent = cart[index].count;
 
                 } else {
                     cart.push({id: clone.id, count: 1});
-                    console.log(cart);
                     $("#Cart").append(clone);
                 }
             });
+
         }
     });
 });
